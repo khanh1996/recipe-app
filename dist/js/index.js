@@ -81,22 +81,10 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _js_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/app */ \"./src/js/app.js\");\n\r\n\r\n\r\nObject(_js_app__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(\"VBK!!!\");\r\n\n\n//# sourceURL=webpack:///./src/index.js?");
-
-/***/ }),
 
 /***/ "./src/js/app.js":
 /*!***********************!*\
@@ -107,6 +95,40 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _js_
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\nfunction helloWord(name) {\r\n    console.log(\"Hello \" + name);\r\n}\r\n\r\n/* harmony default export */ __webpack_exports__[\"default\"] = (helloWord);\r\n\n\n//# sourceURL=webpack:///./src/js/app.js?");
+
+/***/ }),
+
+/***/ "./src/js/index.js":
+/*!*************************!*\
+  !*** ./src/js/index.js ***!
+  \*************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ \"./src/js/app.js\");\n\r\n\r\nObject(_app__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(\"VBK!!!\");\r\n\n\n//# sourceURL=webpack:///./src/js/index.js?");
+
+/***/ }),
+
+/***/ "./src/scss/index.scss":
+/*!*****************************!*\
+  !*** ./src/scss/index.scss ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/scss/index.scss?");
+
+/***/ }),
+
+/***/ 0:
+/*!*****************************************************!*\
+  !*** multi ./src/js/index.js ./src/scss/index.scss ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("__webpack_require__(/*! ./src/js/index.js */\"./src/js/index.js\");\nmodule.exports = __webpack_require__(/*! ./src/scss/index.scss */\"./src/scss/index.scss\");\n\n\n//# sourceURL=webpack:///multi_./src/js/index.js_./src/scss/index.scss?");
 
 /***/ })
 

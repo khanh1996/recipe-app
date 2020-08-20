@@ -1,0 +1,35 @@
+{
+    "name": "recipe-app",
+    "version": "1.0.0",
+    "description": "This is the software that provides recipes for making dishes",
+    "main": "src/index.js",
+    "scripts": {
+        "dev": "webpack --mode development",
+        "build": "webpack --mode production",
+        "start": "webpack-dev-server --mode development --open",
+        "watch": "npm-watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/khanh1996/recipe-app.git"
+    },
+    "keywords": [
+        "javascript"
+    ],
+    "author": "VBK",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/khanh1996/recipe-app/issues"
+    },
+    "homepage": "https://github.com/khanh1996/recipe-app#readme",
+    "devDependencies": {
+        "bootstrap": "^4.5.2",
+        "css-loader": "^4.2.1",
+        "file-loader": "^6.0.0",
+        "html-webpack-plugin": "^4.3.0",
+        "style-loader": "^1.2.1",
+        "url-loader": "^4.1.0",
+        "webpack": "^4.44.1",
+        "webpack-cli": "^3.3.12"
+    }
+}

@@ -57,7 +57,7 @@ const createButtonPagination = (currentPage, type) => `
     }"data-page=${type === "prev" ? currentPage - 1 : currentPage + 1}>
         <span>Page ${type === "prev" ? currentPage - 1 : currentPage + 1}</span>
         <svg class="search__icon">
-            <use href="img/icons.svg#icon-triangle-${
+            <use href="src/assets/img/icons.svg#icon-triangle-${
                 type === "prev" ? "left" : "right"
             }"></use>
         </svg>

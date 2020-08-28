@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -408,6 +408,28 @@ eval("module.exports = function (it) {\n  if (typeof it != 'function') {\n    th
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/a-possible-prototype.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/core-js/internals/a-possible-prototype.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var isObject = __webpack_require__(/*! ../internals/is-object */ \"./node_modules/core-js/internals/is-object.js\");\n\nmodule.exports = function (it) {\n  if (!isObject(it) && it !== null) {\n    throw TypeError(\"Can't set \" + String(it) + ' as a prototype');\n  } return it;\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/a-possible-prototype.js?");
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/add-to-unscopables.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/internals/add-to-unscopables.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ \"./node_modules/core-js/internals/well-known-symbol.js\");\nvar create = __webpack_require__(/*! ../internals/object-create */ \"./node_modules/core-js/internals/object-create.js\");\nvar definePropertyModule = __webpack_require__(/*! ../internals/object-define-property */ \"./node_modules/core-js/internals/object-define-property.js\");\n\nvar UNSCOPABLES = wellKnownSymbol('unscopables');\nvar ArrayPrototype = Array.prototype;\n\n// Array.prototype[@@unscopables]\n// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables\nif (ArrayPrototype[UNSCOPABLES] == undefined) {\n  definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {\n    configurable: true,\n    value: create(null)\n  });\n}\n\n// add a key to Array.prototype[@@unscopables]\nmodule.exports = function (key) {\n  ArrayPrototype[UNSCOPABLES][key] = true;\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/add-to-unscopables.js?");
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/advance-string-index.js":
 /*!****************************************************************!*\
   !*** ./node_modules/core-js/internals/advance-string-index.js ***!
@@ -508,6 +530,29 @@ eval("var has = __webpack_require__(/*! ../internals/has */ \"./node_modules/cor
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/correct-prototype-getter.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/core-js/internals/correct-prototype-getter.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var fails = __webpack_require__(/*! ../internals/fails */ \"./node_modules/core-js/internals/fails.js\");\n\nmodule.exports = !fails(function () {\n  function F() { /* empty */ }\n  F.prototype.constructor = null;\n  return Object.getPrototypeOf(new F()) !== F.prototype;\n});\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/correct-prototype-getter.js?");
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/create-iterator-constructor.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/core-js/internals/create-iterator-constructor.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nvar IteratorPrototype = __webpack_require__(/*! ../internals/iterators-core */ \"./node_modules/core-js/internals/iterators-core.js\").IteratorPrototype;\nvar create = __webpack_require__(/*! ../internals/object-create */ \"./node_modules/core-js/internals/object-create.js\");\nvar createPropertyDescriptor = __webpack_require__(/*! ../internals/create-property-descriptor */ \"./node_modules/core-js/internals/create-property-descriptor.js\");\nvar setToStringTag = __webpack_require__(/*! ../internals/set-to-string-tag */ \"./node_modules/core-js/internals/set-to-string-tag.js\");\nvar Iterators = __webpack_require__(/*! ../internals/iterators */ \"./node_modules/core-js/internals/iterators.js\");\n\nvar returnThis = function () { return this; };\n\nmodule.exports = function (IteratorConstructor, NAME, next) {\n  var TO_STRING_TAG = NAME + ' Iterator';\n  IteratorConstructor.prototype = create(IteratorPrototype, { next: createPropertyDescriptor(1, next) });\n  setToStringTag(IteratorConstructor, TO_STRING_TAG, false, true);\n  Iterators[TO_STRING_TAG] = returnThis;\n  return IteratorConstructor;\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/create-iterator-constructor.js?");
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/create-non-enumerable-property.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/core-js/internals/create-non-enumerable-property.js ***!
@@ -530,6 +575,18 @@ eval("module.exports = function (bitmap, value) {\n  return {\n    enumerable: !
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/define-iterator.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/core-js/internals/define-iterator.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nvar $ = __webpack_require__(/*! ../internals/export */ \"./node_modules/core-js/internals/export.js\");\nvar createIteratorConstructor = __webpack_require__(/*! ../internals/create-iterator-constructor */ \"./node_modules/core-js/internals/create-iterator-constructor.js\");\nvar getPrototypeOf = __webpack_require__(/*! ../internals/object-get-prototype-of */ \"./node_modules/core-js/internals/object-get-prototype-of.js\");\nvar setPrototypeOf = __webpack_require__(/*! ../internals/object-set-prototype-of */ \"./node_modules/core-js/internals/object-set-prototype-of.js\");\nvar setToStringTag = __webpack_require__(/*! ../internals/set-to-string-tag */ \"./node_modules/core-js/internals/set-to-string-tag.js\");\nvar createNonEnumerableProperty = __webpack_require__(/*! ../internals/create-non-enumerable-property */ \"./node_modules/core-js/internals/create-non-enumerable-property.js\");\nvar redefine = __webpack_require__(/*! ../internals/redefine */ \"./node_modules/core-js/internals/redefine.js\");\nvar wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ \"./node_modules/core-js/internals/well-known-symbol.js\");\nvar IS_PURE = __webpack_require__(/*! ../internals/is-pure */ \"./node_modules/core-js/internals/is-pure.js\");\nvar Iterators = __webpack_require__(/*! ../internals/iterators */ \"./node_modules/core-js/internals/iterators.js\");\nvar IteratorsCore = __webpack_require__(/*! ../internals/iterators-core */ \"./node_modules/core-js/internals/iterators-core.js\");\n\nvar IteratorPrototype = IteratorsCore.IteratorPrototype;\nvar BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;\nvar ITERATOR = wellKnownSymbol('iterator');\nvar KEYS = 'keys';\nvar VALUES = 'values';\nvar ENTRIES = 'entries';\n\nvar returnThis = function () { return this; };\n\nmodule.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {\n  createIteratorConstructor(IteratorConstructor, NAME, next);\n\n  var getIterationMethod = function (KIND) {\n    if (KIND === DEFAULT && defaultIterator) return defaultIterator;\n    if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];\n    switch (KIND) {\n      case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };\n      case VALUES: return function values() { return new IteratorConstructor(this, KIND); };\n      case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };\n    } return function () { return new IteratorConstructor(this); };\n  };\n\n  var TO_STRING_TAG = NAME + ' Iterator';\n  var INCORRECT_VALUES_NAME = false;\n  var IterablePrototype = Iterable.prototype;\n  var nativeIterator = IterablePrototype[ITERATOR]\n    || IterablePrototype['@@iterator']\n    || DEFAULT && IterablePrototype[DEFAULT];\n  var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);\n  var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;\n  var CurrentIteratorPrototype, methods, KEY;\n\n  // fix native\n  if (anyNativeIterator) {\n    CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));\n    if (IteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {\n      if (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {\n        if (setPrototypeOf) {\n          setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);\n        } else if (typeof CurrentIteratorPrototype[ITERATOR] != 'function') {\n          createNonEnumerableProperty(CurrentIteratorPrototype, ITERATOR, returnThis);\n        }\n      }\n      // Set @@toStringTag to native iterators\n      setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true, true);\n      if (IS_PURE) Iterators[TO_STRING_TAG] = returnThis;\n    }\n  }\n\n  // fix Array#{values, @@iterator}.name in V8 / FF\n  if (DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {\n    INCORRECT_VALUES_NAME = true;\n    defaultIterator = function values() { return nativeIterator.call(this); };\n  }\n\n  // define iterator\n  if ((!IS_PURE || FORCED) && IterablePrototype[ITERATOR] !== defaultIterator) {\n    createNonEnumerableProperty(IterablePrototype, ITERATOR, defaultIterator);\n  }\n  Iterators[NAME] = defaultIterator;\n\n  // export additional methods\n  if (DEFAULT) {\n    methods = {\n      values: getIterationMethod(VALUES),\n      keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),\n      entries: getIterationMethod(ENTRIES)\n    };\n    if (FORCED) for (KEY in methods) {\n      if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {\n        redefine(IterablePrototype, KEY, methods[KEY]);\n      }\n    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);\n  }\n\n  return methods;\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/define-iterator.js?");
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/descriptors.js":
 /*!*******************************************************!*\
   !*** ./node_modules/core-js/internals/descriptors.js ***!
@@ -549,6 +606,17 @@ eval("var fails = __webpack_require__(/*! ../internals/fails */ \"./node_modules
 /***/ (function(module, exports, __webpack_require__) {
 
 eval("var global = __webpack_require__(/*! ../internals/global */ \"./node_modules/core-js/internals/global.js\");\nvar isObject = __webpack_require__(/*! ../internals/is-object */ \"./node_modules/core-js/internals/is-object.js\");\n\nvar document = global.document;\n// typeof document.createElement is 'object' in old IE\nvar EXISTS = isObject(document) && isObject(document.createElement);\n\nmodule.exports = function (it) {\n  return EXISTS ? document.createElement(it) : {};\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/document-create-element.js?");
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/dom-iterables.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/internals/dom-iterables.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("// iterable DOM collections\n// flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods\nmodule.exports = {\n  CSSRuleList: 0,\n  CSSStyleDeclaration: 0,\n  CSSValueList: 0,\n  ClientRectList: 0,\n  DOMRectList: 0,\n  DOMStringList: 0,\n  DOMTokenList: 1,\n  DataTransferItemList: 0,\n  FileList: 0,\n  HTMLAllCollection: 0,\n  HTMLCollection: 0,\n  HTMLFormElement: 0,\n  HTMLSelectElement: 0,\n  MediaList: 0,\n  MimeTypeArray: 0,\n  NamedNodeMap: 0,\n  NodeList: 1,\n  PaintRequestList: 0,\n  Plugin: 0,\n  PluginArray: 0,\n  SVGLengthList: 0,\n  SVGNumberList: 0,\n  SVGPathSegList: 0,\n  SVGPointList: 0,\n  SVGStringList: 0,\n  SVGTransformList: 0,\n  SourceBufferList: 0,\n  StyleSheetList: 0,\n  TextTrackCueList: 0,\n  TextTrackList: 0,\n  TouchList: 0\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/dom-iterables.js?");
 
 /***/ }),
 
@@ -828,6 +896,18 @@ eval("var anObject = __webpack_require__(/*! ../internals/an-object */ \"./node_
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/iterators-core.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/internals/iterators-core.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nvar getPrototypeOf = __webpack_require__(/*! ../internals/object-get-prototype-of */ \"./node_modules/core-js/internals/object-get-prototype-of.js\");\nvar createNonEnumerableProperty = __webpack_require__(/*! ../internals/create-non-enumerable-property */ \"./node_modules/core-js/internals/create-non-enumerable-property.js\");\nvar has = __webpack_require__(/*! ../internals/has */ \"./node_modules/core-js/internals/has.js\");\nvar wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ \"./node_modules/core-js/internals/well-known-symbol.js\");\nvar IS_PURE = __webpack_require__(/*! ../internals/is-pure */ \"./node_modules/core-js/internals/is-pure.js\");\n\nvar ITERATOR = wellKnownSymbol('iterator');\nvar BUGGY_SAFARI_ITERATORS = false;\n\nvar returnThis = function () { return this; };\n\n// `%IteratorPrototype%` object\n// https://tc39.github.io/ecma262/#sec-%iteratorprototype%-object\nvar IteratorPrototype, PrototypeOfArrayIteratorPrototype, arrayIterator;\n\nif ([].keys) {\n  arrayIterator = [].keys();\n  // Safari 8 has buggy iterators w/o `next`\n  if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS = true;\n  else {\n    PrototypeOfArrayIteratorPrototype = getPrototypeOf(getPrototypeOf(arrayIterator));\n    if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype = PrototypeOfArrayIteratorPrototype;\n  }\n}\n\nif (IteratorPrototype == undefined) IteratorPrototype = {};\n\n// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()\nif (!IS_PURE && !has(IteratorPrototype, ITERATOR)) {\n  createNonEnumerableProperty(IteratorPrototype, ITERATOR, returnThis);\n}\n\nmodule.exports = {\n  IteratorPrototype: IteratorPrototype,\n  BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/iterators-core.js?");
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/iterators.js":
 /*!*****************************************************!*\
   !*** ./node_modules/core-js/internals/iterators.js ***!
@@ -895,6 +975,28 @@ eval("\nvar aFunction = __webpack_require__(/*! ../internals/a-function */ \"./n
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/object-create.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/internals/object-create.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var anObject = __webpack_require__(/*! ../internals/an-object */ \"./node_modules/core-js/internals/an-object.js\");\nvar defineProperties = __webpack_require__(/*! ../internals/object-define-properties */ \"./node_modules/core-js/internals/object-define-properties.js\");\nvar enumBugKeys = __webpack_require__(/*! ../internals/enum-bug-keys */ \"./node_modules/core-js/internals/enum-bug-keys.js\");\nvar hiddenKeys = __webpack_require__(/*! ../internals/hidden-keys */ \"./node_modules/core-js/internals/hidden-keys.js\");\nvar html = __webpack_require__(/*! ../internals/html */ \"./node_modules/core-js/internals/html.js\");\nvar documentCreateElement = __webpack_require__(/*! ../internals/document-create-element */ \"./node_modules/core-js/internals/document-create-element.js\");\nvar sharedKey = __webpack_require__(/*! ../internals/shared-key */ \"./node_modules/core-js/internals/shared-key.js\");\n\nvar GT = '>';\nvar LT = '<';\nvar PROTOTYPE = 'prototype';\nvar SCRIPT = 'script';\nvar IE_PROTO = sharedKey('IE_PROTO');\n\nvar EmptyConstructor = function () { /* empty */ };\n\nvar scriptTag = function (content) {\n  return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;\n};\n\n// Create object with fake `null` prototype: use ActiveX Object with cleared prototype\nvar NullProtoObjectViaActiveX = function (activeXDocument) {\n  activeXDocument.write(scriptTag(''));\n  activeXDocument.close();\n  var temp = activeXDocument.parentWindow.Object;\n  activeXDocument = null; // avoid memory leak\n  return temp;\n};\n\n// Create object with fake `null` prototype: use iframe Object with cleared prototype\nvar NullProtoObjectViaIFrame = function () {\n  // Thrash, waste and sodomy: IE GC bug\n  var iframe = documentCreateElement('iframe');\n  var JS = 'java' + SCRIPT + ':';\n  var iframeDocument;\n  iframe.style.display = 'none';\n  html.appendChild(iframe);\n  // https://github.com/zloirock/core-js/issues/475\n  iframe.src = String(JS);\n  iframeDocument = iframe.contentWindow.document;\n  iframeDocument.open();\n  iframeDocument.write(scriptTag('document.F=Object'));\n  iframeDocument.close();\n  return iframeDocument.F;\n};\n\n// Check for document.domain and active x support\n// No need to use active x approach when document.domain is not set\n// see https://github.com/es-shims/es5-shim/issues/150\n// variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346\n// avoid IE GC bug\nvar activeXDocument;\nvar NullProtoObject = function () {\n  try {\n    /* global ActiveXObject */\n    activeXDocument = document.domain && new ActiveXObject('htmlfile');\n  } catch (error) { /* ignore */ }\n  NullProtoObject = activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) : NullProtoObjectViaIFrame();\n  var length = enumBugKeys.length;\n  while (length--) delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];\n  return NullProtoObject();\n};\n\nhiddenKeys[IE_PROTO] = true;\n\n// `Object.create` method\n// https://tc39.github.io/ecma262/#sec-object.create\nmodule.exports = Object.create || function create(O, Properties) {\n  var result;\n  if (O !== null) {\n    EmptyConstructor[PROTOTYPE] = anObject(O);\n    result = new EmptyConstructor();\n    EmptyConstructor[PROTOTYPE] = null;\n    // add \"__proto__\" for Object.getPrototypeOf polyfill\n    result[IE_PROTO] = O;\n  } else result = NullProtoObject();\n  return Properties === undefined ? result : defineProperties(result, Properties);\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/object-create.js?");
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/object-define-properties.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/core-js/internals/object-define-properties.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ \"./node_modules/core-js/internals/descriptors.js\");\nvar definePropertyModule = __webpack_require__(/*! ../internals/object-define-property */ \"./node_modules/core-js/internals/object-define-property.js\");\nvar anObject = __webpack_require__(/*! ../internals/an-object */ \"./node_modules/core-js/internals/an-object.js\");\nvar objectKeys = __webpack_require__(/*! ../internals/object-keys */ \"./node_modules/core-js/internals/object-keys.js\");\n\n// `Object.defineProperties` method\n// https://tc39.github.io/ecma262/#sec-object.defineproperties\nmodule.exports = DESCRIPTORS ? Object.defineProperties : function defineProperties(O, Properties) {\n  anObject(O);\n  var keys = objectKeys(Properties);\n  var length = keys.length;\n  var index = 0;\n  var key;\n  while (length > index) definePropertyModule.f(O, key = keys[index++], Properties[key]);\n  return O;\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/object-define-properties.js?");
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/object-define-property.js":
 /*!******************************************************************!*\
   !*** ./node_modules/core-js/internals/object-define-property.js ***!
@@ -939,6 +1041,17 @@ eval("exports.f = Object.getOwnPropertySymbols;\n\n\n//# sourceURL=webpack:///./
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/object-get-prototype-of.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/core-js/internals/object-get-prototype-of.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var has = __webpack_require__(/*! ../internals/has */ \"./node_modules/core-js/internals/has.js\");\nvar toObject = __webpack_require__(/*! ../internals/to-object */ \"./node_modules/core-js/internals/to-object.js\");\nvar sharedKey = __webpack_require__(/*! ../internals/shared-key */ \"./node_modules/core-js/internals/shared-key.js\");\nvar CORRECT_PROTOTYPE_GETTER = __webpack_require__(/*! ../internals/correct-prototype-getter */ \"./node_modules/core-js/internals/correct-prototype-getter.js\");\n\nvar IE_PROTO = sharedKey('IE_PROTO');\nvar ObjectPrototype = Object.prototype;\n\n// `Object.getPrototypeOf` method\n// https://tc39.github.io/ecma262/#sec-object.getprototypeof\nmodule.exports = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O) {\n  O = toObject(O);\n  if (has(O, IE_PROTO)) return O[IE_PROTO];\n  if (typeof O.constructor == 'function' && O instanceof O.constructor) {\n    return O.constructor.prototype;\n  } return O instanceof Object ? ObjectPrototype : null;\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/object-get-prototype-of.js?");
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/object-keys-internal.js":
 /*!****************************************************************!*\
   !*** ./node_modules/core-js/internals/object-keys-internal.js ***!
@@ -947,6 +1060,17 @@ eval("exports.f = Object.getOwnPropertySymbols;\n\n\n//# sourceURL=webpack:///./
 /***/ (function(module, exports, __webpack_require__) {
 
 eval("var has = __webpack_require__(/*! ../internals/has */ \"./node_modules/core-js/internals/has.js\");\nvar toIndexedObject = __webpack_require__(/*! ../internals/to-indexed-object */ \"./node_modules/core-js/internals/to-indexed-object.js\");\nvar indexOf = __webpack_require__(/*! ../internals/array-includes */ \"./node_modules/core-js/internals/array-includes.js\").indexOf;\nvar hiddenKeys = __webpack_require__(/*! ../internals/hidden-keys */ \"./node_modules/core-js/internals/hidden-keys.js\");\n\nmodule.exports = function (object, names) {\n  var O = toIndexedObject(object);\n  var i = 0;\n  var result = [];\n  var key;\n  for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);\n  // Don't enum bug & hidden keys\n  while (names.length > i) if (has(O, key = names[i++])) {\n    ~indexOf(result, key) || result.push(key);\n  }\n  return result;\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/object-keys-internal.js?");
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/object-keys.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/core-js/internals/object-keys.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var internalObjectKeys = __webpack_require__(/*! ../internals/object-keys-internal */ \"./node_modules/core-js/internals/object-keys-internal.js\");\nvar enumBugKeys = __webpack_require__(/*! ../internals/enum-bug-keys */ \"./node_modules/core-js/internals/enum-bug-keys.js\");\n\n// `Object.keys` method\n// https://tc39.github.io/ecma262/#sec-object.keys\nmodule.exports = Object.keys || function keys(O) {\n  return internalObjectKeys(O, enumBugKeys);\n};\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/object-keys.js?");
 
 /***/ }),
 
@@ -959,6 +1083,17 @@ eval("var has = __webpack_require__(/*! ../internals/has */ \"./node_modules/cor
 
 "use strict";
 eval("\nvar nativePropertyIsEnumerable = {}.propertyIsEnumerable;\nvar getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;\n\n// Nashorn ~ JDK8 bug\nvar NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);\n\n// `Object.prototype.propertyIsEnumerable` method implementation\n// https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable\nexports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {\n  var descriptor = getOwnPropertyDescriptor(this, V);\n  return !!descriptor && descriptor.enumerable;\n} : nativePropertyIsEnumerable;\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/object-property-is-enumerable.js?");
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/object-set-prototype-of.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/core-js/internals/object-set-prototype-of.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var anObject = __webpack_require__(/*! ../internals/an-object */ \"./node_modules/core-js/internals/an-object.js\");\nvar aPossiblePrototype = __webpack_require__(/*! ../internals/a-possible-prototype */ \"./node_modules/core-js/internals/a-possible-prototype.js\");\n\n// `Object.setPrototypeOf` method\n// https://tc39.github.io/ecma262/#sec-object.setprototypeof\n// Works with __proto__ only. Old v8 can't work with null proto objects.\n/* eslint-disable no-proto */\nmodule.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {\n  var CORRECT_SETTER = false;\n  var test = {};\n  var setter;\n  try {\n    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;\n    setter.call(test, []);\n    CORRECT_SETTER = test instanceof Array;\n  } catch (error) { /* empty */ }\n  return function setPrototypeOf(O, proto) {\n    anObject(O);\n    aPossiblePrototype(proto);\n    if (CORRECT_SETTER) setter.call(O, proto);\n    else O.__proto__ = proto;\n    return O;\n  };\n}() : undefined);\n\n\n//# sourceURL=webpack:///./node_modules/core-js/internals/object-set-prototype-of.js?");
 
 /***/ }),
 
@@ -1307,6 +1442,18 @@ eval("var global = __webpack_require__(/*! ../internals/global */ \"./node_modul
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es.array.iterator.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.array.iterator.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nvar toIndexedObject = __webpack_require__(/*! ../internals/to-indexed-object */ \"./node_modules/core-js/internals/to-indexed-object.js\");\nvar addToUnscopables = __webpack_require__(/*! ../internals/add-to-unscopables */ \"./node_modules/core-js/internals/add-to-unscopables.js\");\nvar Iterators = __webpack_require__(/*! ../internals/iterators */ \"./node_modules/core-js/internals/iterators.js\");\nvar InternalStateModule = __webpack_require__(/*! ../internals/internal-state */ \"./node_modules/core-js/internals/internal-state.js\");\nvar defineIterator = __webpack_require__(/*! ../internals/define-iterator */ \"./node_modules/core-js/internals/define-iterator.js\");\n\nvar ARRAY_ITERATOR = 'Array Iterator';\nvar setInternalState = InternalStateModule.set;\nvar getInternalState = InternalStateModule.getterFor(ARRAY_ITERATOR);\n\n// `Array.prototype.entries` method\n// https://tc39.github.io/ecma262/#sec-array.prototype.entries\n// `Array.prototype.keys` method\n// https://tc39.github.io/ecma262/#sec-array.prototype.keys\n// `Array.prototype.values` method\n// https://tc39.github.io/ecma262/#sec-array.prototype.values\n// `Array.prototype[@@iterator]` method\n// https://tc39.github.io/ecma262/#sec-array.prototype-@@iterator\n// `CreateArrayIterator` internal method\n// https://tc39.github.io/ecma262/#sec-createarrayiterator\nmodule.exports = defineIterator(Array, 'Array', function (iterated, kind) {\n  setInternalState(this, {\n    type: ARRAY_ITERATOR,\n    target: toIndexedObject(iterated), // target\n    index: 0,                          // next index\n    kind: kind                         // kind\n  });\n// `%ArrayIteratorPrototype%.next` method\n// https://tc39.github.io/ecma262/#sec-%arrayiteratorprototype%.next\n}, function () {\n  var state = getInternalState(this);\n  var target = state.target;\n  var kind = state.kind;\n  var index = state.index++;\n  if (!target || index >= target.length) {\n    state.target = undefined;\n    return { value: undefined, done: true };\n  }\n  if (kind == 'keys') return { value: index, done: false };\n  if (kind == 'values') return { value: target[index], done: false };\n  return { value: [index, target[index]], done: false };\n}, 'values');\n\n// argumentsList[@@iterator] is %ArrayProto_values%\n// https://tc39.github.io/ecma262/#sec-createunmappedargumentsobject\n// https://tc39.github.io/ecma262/#sec-createmappedargumentsobject\nIterators.Arguments = Iterators.Array;\n\n// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables\naddToUnscopables('keys');\naddToUnscopables('values');\naddToUnscopables('entries');\n\n\n//# sourceURL=webpack:///./node_modules/core-js/modules/es.array.iterator.js?");
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es.promise.js":
 /*!****************************************************!*\
   !*** ./node_modules/core-js/modules/es.promise.js ***!
@@ -1367,6 +1514,17 @@ eval("\nvar fixRegExpWellKnownSymbolLogic = __webpack_require__(/*! ../internals
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/web.dom-collections.iterator.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/core-js/modules/web.dom-collections.iterator.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var global = __webpack_require__(/*! ../internals/global */ \"./node_modules/core-js/internals/global.js\");\nvar DOMIterables = __webpack_require__(/*! ../internals/dom-iterables */ \"./node_modules/core-js/internals/dom-iterables.js\");\nvar ArrayIteratorMethods = __webpack_require__(/*! ../modules/es.array.iterator */ \"./node_modules/core-js/modules/es.array.iterator.js\");\nvar createNonEnumerableProperty = __webpack_require__(/*! ../internals/create-non-enumerable-property */ \"./node_modules/core-js/internals/create-non-enumerable-property.js\");\nvar wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ \"./node_modules/core-js/internals/well-known-symbol.js\");\n\nvar ITERATOR = wellKnownSymbol('iterator');\nvar TO_STRING_TAG = wellKnownSymbol('toStringTag');\nvar ArrayValues = ArrayIteratorMethods.values;\n\nfor (var COLLECTION_NAME in DOMIterables) {\n  var Collection = global[COLLECTION_NAME];\n  var CollectionPrototype = Collection && Collection.prototype;\n  if (CollectionPrototype) {\n    // some Chrome versions have non-configurable methods on DOMTokenList\n    if (CollectionPrototype[ITERATOR] !== ArrayValues) try {\n      createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);\n    } catch (error) {\n      CollectionPrototype[ITERATOR] = ArrayValues;\n    }\n    if (!CollectionPrototype[TO_STRING_TAG]) {\n      createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);\n    }\n    if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {\n      // some Chrome versions have non-configurable methods on DOMTokenList\n      if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {\n        createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);\n      } catch (error) {\n        CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];\n      }\n    }\n  }\n}\n\n\n//# sourceURL=webpack:///./node_modules/core-js/modules/web.dom-collections.iterator.js?");
+
+/***/ }),
+
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -1389,6 +1547,173 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 
 /***/ }),
 
+/***/ "./src/assets/img sync \\.(png|jpe?g|svg)$":
+/*!*************************************************************!*\
+  !*** ./src/assets/img sync nonrecursive \.(png|jpe?g|svg)$ ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var map = {\n\t\"./favicon.png\": \"./src/assets/img/favicon.png\",\n\t\"./icons.svg\": \"./src/assets/img/icons.svg\",\n\t\"./logo.png\": \"./src/assets/img/logo.png\",\n\t\"./test-1.jpg\": \"./src/assets/img/test-1.jpg\",\n\t\"./test-10.jpg\": \"./src/assets/img/test-10.jpg\",\n\t\"./test-2.jpg\": \"./src/assets/img/test-2.jpg\",\n\t\"./test-3.jpg\": \"./src/assets/img/test-3.jpg\",\n\t\"./test-4.jpg\": \"./src/assets/img/test-4.jpg\",\n\t\"./test-5.jpg\": \"./src/assets/img/test-5.jpg\",\n\t\"./test-6.jpg\": \"./src/assets/img/test-6.jpg\",\n\t\"./test-7.jpg\": \"./src/assets/img/test-7.jpg\",\n\t\"./test-8.jpg\": \"./src/assets/img/test-8.jpg\",\n\t\"./test-9.jpg\": \"./src/assets/img/test-9.jpg\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tif(!__webpack_require__.o(map, req)) {\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn map[req];\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/assets/img sync \\\\.(png|jpe?g|svg)$\";\n\n//# sourceURL=webpack:///./src/assets/img_sync_nonrecursive_\\.(png%7Cjpe?");
+
+/***/ }),
+
+/***/ "./src/assets/img/favicon.png":
+/*!************************************!*\
+  !*** ./src/assets/img/favicon.png ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/favicon.png\");\n\n//# sourceURL=webpack:///./src/assets/img/favicon.png?");
+
+/***/ }),
+
+/***/ "./src/assets/img/icons.svg":
+/*!**********************************!*\
+  !*** ./src/assets/img/icons.svg ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/icons.svg\");\n\n//# sourceURL=webpack:///./src/assets/img/icons.svg?");
+
+/***/ }),
+
+/***/ "./src/assets/img/logo.png":
+/*!*********************************!*\
+  !*** ./src/assets/img/logo.png ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/logo.png\");\n\n//# sourceURL=webpack:///./src/assets/img/logo.png?");
+
+/***/ }),
+
+/***/ "./src/assets/img/test-1.jpg":
+/*!***********************************!*\
+  !*** ./src/assets/img/test-1.jpg ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/test-1.jpg\");\n\n//# sourceURL=webpack:///./src/assets/img/test-1.jpg?");
+
+/***/ }),
+
+/***/ "./src/assets/img/test-10.jpg":
+/*!************************************!*\
+  !*** ./src/assets/img/test-10.jpg ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/test-10.jpg\");\n\n//# sourceURL=webpack:///./src/assets/img/test-10.jpg?");
+
+/***/ }),
+
+/***/ "./src/assets/img/test-2.jpg":
+/*!***********************************!*\
+  !*** ./src/assets/img/test-2.jpg ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/test-2.jpg\");\n\n//# sourceURL=webpack:///./src/assets/img/test-2.jpg?");
+
+/***/ }),
+
+/***/ "./src/assets/img/test-3.jpg":
+/*!***********************************!*\
+  !*** ./src/assets/img/test-3.jpg ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/test-3.jpg\");\n\n//# sourceURL=webpack:///./src/assets/img/test-3.jpg?");
+
+/***/ }),
+
+/***/ "./src/assets/img/test-4.jpg":
+/*!***********************************!*\
+  !*** ./src/assets/img/test-4.jpg ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/test-4.jpg\");\n\n//# sourceURL=webpack:///./src/assets/img/test-4.jpg?");
+
+/***/ }),
+
+/***/ "./src/assets/img/test-5.jpg":
+/*!***********************************!*\
+  !*** ./src/assets/img/test-5.jpg ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/test-5.jpg\");\n\n//# sourceURL=webpack:///./src/assets/img/test-5.jpg?");
+
+/***/ }),
+
+/***/ "./src/assets/img/test-6.jpg":
+/*!***********************************!*\
+  !*** ./src/assets/img/test-6.jpg ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/test-6.jpg\");\n\n//# sourceURL=webpack:///./src/assets/img/test-6.jpg?");
+
+/***/ }),
+
+/***/ "./src/assets/img/test-7.jpg":
+/*!***********************************!*\
+  !*** ./src/assets/img/test-7.jpg ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/test-7.jpg\");\n\n//# sourceURL=webpack:///./src/assets/img/test-7.jpg?");
+
+/***/ }),
+
+/***/ "./src/assets/img/test-8.jpg":
+/*!***********************************!*\
+  !*** ./src/assets/img/test-8.jpg ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/test-8.jpg\");\n\n//# sourceURL=webpack:///./src/assets/img/test-8.jpg?");
+
+/***/ }),
+
+/***/ "./src/assets/img/test-9.jpg":
+/*!***********************************!*\
+  !*** ./src/assets/img/test-9.jpg ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"src/assets/img/test-9.jpg\");\n\n//# sourceURL=webpack:///./src/assets/img/test-9.jpg?");
+
+/***/ }),
+
 /***/ "./src/js/index.js":
 /*!*************************!*\
   !*** ./src/js/index.js ***!
@@ -1397,7 +1722,7 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.promise */ \"./node_modules/core-js/modules/es.promise.js\");\n/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.string.replace */ \"./node_modules/core-js/modules/es.string.replace.js\");\n/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var core_js_modules_es_string_search__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.string.search */ \"./node_modules/core-js/modules/es.string.search.js\");\n/* harmony import */ var core_js_modules_es_string_search__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_search__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _models_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./models/Search */ \"./src/js/models/Search.js\");\n/* harmony import */ var _models_Recipes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./models/Recipes */ \"./src/js/models/Recipes.js\");\n/* harmony import */ var _views_DOM__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/DOM */ \"./src/js/views/DOM.js\");\n/* harmony import */ var _views_searchView__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/searchView */ \"./src/js/views/searchView.js\");\n/* harmony import */ var _views_recipeView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/recipeView */ \"./src/js/views/recipeView.js\");\n\n\n\n\n\n\n\n\n/**\r\n * Global State\r\n * - Search object\r\n * - Current Recipe Object\r\n * - Shopping list\r\n * - Wishlist\r\n */\n\nconst state = {};\n/**\r\n * SEARCH CONTROLLER\r\n */\n\nconst controllerSearch = async () => {\n  // 1. Get query value from  input search\n  const query = _views_searchView__WEBPACK_IMPORTED_MODULE_6__[\"getValueSearch__field\"](); //console.log(query);\n  // 2 . check exist query\n\n  if (query) {\n    // 2. Get data from api and add to state\n    state.search = new _models_Search__WEBPACK_IMPORTED_MODULE_3__[\"default\"](query); // 4 clear search list\n\n    _views_searchView__WEBPACK_IMPORTED_MODULE_6__[\"clearInput\"]();\n    _views_searchView__WEBPACK_IMPORTED_MODULE_6__[\"clearSearchList\"]();\n    Object(_views_DOM__WEBPACK_IMPORTED_MODULE_5__[\"renderLoader\"])(_views_DOM__WEBPACK_IMPORTED_MODULE_5__[\"DOM\"].results); //3. get results return from API to state\n\n    await state.search.getApiSearch(); //5.Render result to ui\n\n    Object(_views_DOM__WEBPACK_IMPORTED_MODULE_5__[\"clearLoader\"])();\n    _views_searchView__WEBPACK_IMPORTED_MODULE_6__[\"renderResultsSearch\"](state.search.result);\n  }\n};\n/**\r\n * RECIPE CONTROLLER\r\n */\n\n\nconst controllerRecipe = async () => {\n  // get id\n  const recipeId = window.location.hash.replace(\"#\", \"\");\n  console.log(recipeId);\n\n  if (recipeId) {\n    // 2. Prepare ui\n    Object(_views_DOM__WEBPACK_IMPORTED_MODULE_5__[\"renderLoader\"])(_views_DOM__WEBPACK_IMPORTED_MODULE_5__[\"DOM\"].recipe); // 3. Create new object recipe\n\n    state.recipe = new _models_Recipes__WEBPACK_IMPORTED_MODULE_4__[\"default\"](recipeId); // 4. Get recipe\n\n    await state.recipe.getApiRecipes();\n    state.recipe.calcTime();\n    state.recipe.calcServing();\n    state.recipe.parseIngredients(); // 5. Render to view\n\n    _views_recipeView__WEBPACK_IMPORTED_MODULE_7__[\"clearRecipe\"]();\n    Object(_views_DOM__WEBPACK_IMPORTED_MODULE_5__[\"clearLoader\"])();\n    _views_recipeView__WEBPACK_IMPORTED_MODULE_7__[\"renderRecipe\"](state.recipe);\n    console.log(state.recipe);\n  }\n};\n/**\r\n * LISTENER EVENTS\r\n */\n\n\nconst setupListenerEvents = () => {\n  _views_DOM__WEBPACK_IMPORTED_MODULE_5__[\"DOM\"].search.addEventListener(\"submit\", event => {\n    event.preventDefault();\n    controllerSearch();\n  });\n  _views_DOM__WEBPACK_IMPORTED_MODULE_5__[\"DOM\"].results__pages.addEventListener(\"click\", event => {\n    const btn = event.target.closest(\".btn-inline\");\n\n    if (btn) {\n      const goToPage = parseInt(btn.dataset.page); //console.log(goToPage);\n\n      _views_searchView__WEBPACK_IMPORTED_MODULE_6__[\"clearSearchList\"]();\n      _views_searchView__WEBPACK_IMPORTED_MODULE_6__[\"clearPagination\"]();\n      _views_searchView__WEBPACK_IMPORTED_MODULE_6__[\"renderResultsSearch\"](state.search.result, goToPage);\n    }\n  });\n  document.querySelectorAll(\".results__list\").forEach(recipe => {\n    recipe.addEventListener(\"click\", controllerRecipe);\n  });\n};\n\nfunction init() {\n  console.log(\"App running\");\n  setupListenerEvents();\n}\n\ninit();\n\n//# sourceURL=webpack:///./src/js/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.promise */ \"./node_modules/core-js/modules/es.promise.js\");\n/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.string.replace */ \"./node_modules/core-js/modules/es.string.replace.js\");\n/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var core_js_modules_es_string_search__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.string.search */ \"./node_modules/core-js/modules/es.string.search.js\");\n/* harmony import */ var core_js_modules_es_string_search__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_search__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ \"./node_modules/core-js/modules/web.dom-collections.iterator.js\");\n/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var _models_Search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./models/Search */ \"./src/js/models/Search.js\");\n/* harmony import */ var _models_Recipes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./models/Recipes */ \"./src/js/models/Recipes.js\");\n/* harmony import */ var _views_DOM__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/DOM */ \"./src/js/views/DOM.js\");\n/* harmony import */ var _views_searchView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/searchView */ \"./src/js/views/searchView.js\");\n/* harmony import */ var _views_recipeView__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/recipeView */ \"./src/js/views/recipeView.js\");\n\n\n\n\n\n\n\n\n\n\nfunction importAll(r) {\n  let images = {};\n  r.keys().map((item, index) => {\n    images[item.replace(\"./\", \"\")] = r(item);\n  });\n  return images;\n}\n\nconst images = importAll(__webpack_require__(\"./src/assets/img sync \\\\.(png|jpe?g|svg)$\"));\nconsole.log(image);\n/**\r\n * Global State\r\n * - Search object\r\n * - Current Recipe Object\r\n * - Shopping list\r\n * - Wishlist\r\n */\n\nconst state = {};\n/**\r\n * SEARCH CONTROLLER\r\n */\n\nconst controllerSearch = async () => {\n  // 1. Get query value from  input search\n  const query = _views_searchView__WEBPACK_IMPORTED_MODULE_7__[\"getValueSearch__field\"](); //console.log(query);\n  // 2 . check exist query\n\n  if (query) {\n    // 2. Get data from api and add to state\n    state.search = new _models_Search__WEBPACK_IMPORTED_MODULE_4__[\"default\"](query); // 4 clear search list\n\n    _views_searchView__WEBPACK_IMPORTED_MODULE_7__[\"clearInput\"]();\n    _views_searchView__WEBPACK_IMPORTED_MODULE_7__[\"clearSearchList\"]();\n    Object(_views_DOM__WEBPACK_IMPORTED_MODULE_6__[\"renderLoader\"])(_views_DOM__WEBPACK_IMPORTED_MODULE_6__[\"DOM\"].results); //3. get results return from API to state\n\n    await state.search.getApiSearch(); //5.Render result to ui\n\n    Object(_views_DOM__WEBPACK_IMPORTED_MODULE_6__[\"clearLoader\"])();\n    _views_searchView__WEBPACK_IMPORTED_MODULE_7__[\"renderResultsSearch\"](state.search.result);\n  }\n};\n/**\r\n * RECIPE CONTROLLER\r\n */\n\n\nconst controllerRecipe = async () => {\n  // get id\n  const recipeId = window.location.hash.replace(\"#\", \"\");\n  console.log(recipeId);\n\n  if (recipeId) {\n    // 2. Prepare ui\n    Object(_views_DOM__WEBPACK_IMPORTED_MODULE_6__[\"renderLoader\"])(_views_DOM__WEBPACK_IMPORTED_MODULE_6__[\"DOM\"].recipe); // 3. Create new object recipe\n\n    state.recipe = new _models_Recipes__WEBPACK_IMPORTED_MODULE_5__[\"default\"](recipeId); // 4. Get recipe\n\n    await state.recipe.getApiRecipes();\n    state.recipe.calcTime();\n    state.recipe.calcServing();\n    state.recipe.parseIngredients(); // 5. Render to view\n\n    _views_recipeView__WEBPACK_IMPORTED_MODULE_8__[\"clearRecipe\"]();\n    Object(_views_DOM__WEBPACK_IMPORTED_MODULE_6__[\"clearLoader\"])();\n    _views_recipeView__WEBPACK_IMPORTED_MODULE_8__[\"renderRecipe\"](state.recipe);\n    console.log(state.recipe);\n  }\n};\n/**\r\n * LISTENER EVENTS\r\n */\n\n\nconst setupListenerEvents = () => {\n  _views_DOM__WEBPACK_IMPORTED_MODULE_6__[\"DOM\"].search.addEventListener(\"submit\", event => {\n    event.preventDefault();\n    controllerSearch();\n  });\n  _views_DOM__WEBPACK_IMPORTED_MODULE_6__[\"DOM\"].results__pages.addEventListener(\"click\", event => {\n    const btn = event.target.closest(\".btn-inline\");\n\n    if (btn) {\n      const goToPage = parseInt(btn.dataset.page); //console.log(goToPage);\n\n      _views_searchView__WEBPACK_IMPORTED_MODULE_7__[\"clearSearchList\"]();\n      _views_searchView__WEBPACK_IMPORTED_MODULE_7__[\"clearPagination\"]();\n      _views_searchView__WEBPACK_IMPORTED_MODULE_7__[\"renderResultsSearch\"](state.search.result, goToPage);\n    }\n  });\n  document.querySelectorAll(\".results__list\").forEach(recipe => {\n    recipe.addEventListener(\"click\", controllerRecipe);\n  });\n  _views_DOM__WEBPACK_IMPORTED_MODULE_6__[\"DOM\"].recipe.addEventListener(\"click\", event => {\n    const btnMinus = event.target.closest(\".btn-minus\");\n    const btnPlus = event.target.closest(\".btn-plus\");\n\n    if (btnMinus) {// recipeView.clearRecipe();\n      // recipeView.renderRecipe(state.recipe, \"minus\");\n    }\n\n    if (btnPlus) {// recipeView.clearRecipe();\n      // recipeView.renderRecipe(state.recipe, \"plus\");\n    }\n  });\n};\n\nfunction init() {\n  console.log(\"App running\");\n  setupListenerEvents();\n}\n\ninit();\n\n//# sourceURL=webpack:///./src/js/index.js?");
 
 /***/ }),
 
@@ -1445,7 +1770,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"clearRecipe\", function() { return clearRecipe; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"renderRecipe\", function() { return renderRecipe; });\n/* harmony import */ var _DOM__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DOM */ \"./src/js/views/DOM.js\");\n\nconst clearRecipe = () => {\n  _DOM__WEBPACK_IMPORTED_MODULE_0__[\"DOM\"].recipe.innerHTML = \"\";\n};\n\nconst createIngredient = ing => \"\\n  <li class=\\\"recipe__item\\\">\\n    <svg class=\\\"recipe__icon\\\">\\n        <use href=\\\"img/icons.svg#icon-check\\\"></use>\\n    </svg>\\n    <div class=\\\"recipe__count\\\">\".concat(ing.count, \"</div>\\n    <div class=\\\"recipe__ingredient\\\">\\n        <span class=\\\"recipe__unit\\\">\").concat(ing.unit, \"</span>\\n        \").concat(ing.ingredient, \"\\n    </div>\\n  </li>\\n\");\n\nconst renderRecipe = recipe => {\n  const markup = \"\\n      <figure class=\\\"recipe__fig\\\">\\n        <img src=\\\"\".concat(recipe.image_url, \"\\\" alt=\\\"\").concat(recipe.title, \"\\\" class=\\\"recipe__img\\\">\\n        <h1 class=\\\"recipe__title\\\">\\n            <span>\").concat(recipe.title, \"</span>\\n        </h1>\\n      </figure>\\n  \\n      <div class=\\\"recipe__details\\\">\\n        <div class=\\\"recipe__info\\\">\\n            <svg class=\\\"recipe__info-icon\\\">\\n                <use href=\\\"img/icons.svg#icon-stopwatch\\\"></use>\\n            </svg>\\n            <span class=\\\"recipe__info-data recipe__info-data--minutes\\\">\").concat(recipe.time, \"</span>\\n            <span class=\\\"recipe__info-text\\\"> minutes</span>\\n        </div>\\n        <div class=\\\"recipe__info\\\">\\n            <svg class=\\\"recipe__info-icon\\\">\\n                <use href=\\\"img/icons.svg#icon-man\\\"></use>\\n            </svg>\\n            <span class=\\\"recipe__info-data recipe__info-data--people\\\">\").concat(recipe.serving, \"</span>\\n            <span class=\\\"recipe__info-text\\\"> servings</span>\\n  \\n            <div class=\\\"recipe__info-buttons\\\">\\n                <button class=\\\"btn-tiny\\\">\\n                    <svg>\\n                        <use href=\\\"img/icons.svg#icon-circle-with-minus\\\"></use>\\n                    </svg>\\n                </button>\\n                <button class=\\\"btn-tiny\\\">\\n                    <svg>\\n                        <use href=\\\"img/icons.svg#icon-circle-with-plus\\\"></use>\\n                    </svg>\\n                </button>\\n            </div>\\n        </div>\\n        <button class=\\\"recipe__love\\\">\\n            <svg class=\\\"header__likes\\\">\\n                <use href=\\\"img/icons.svg#icon-heart-outlined\\\"></use>\\n            </svg>\\n        </button>\\n      </div>\\n  \\n      <div class=\\\"recipe__ingredients\\\">\\n        <ul class=\\\"recipe__ingredient-list\\\">\\n          \").concat(recipe.ingredients.map(el => createIngredient(el)).join(\" \"), \"\\n        </ul>\\n  \\n        <button class=\\\"btn-small recipe__btn\\\">\\n            <svg class=\\\"search__icon\\\">\\n                <use href=\\\"img/icons.svg#icon-shopping-cart\\\"></use>\\n            </svg>\\n            <span>Add to shopping list</span>\\n        </button>\\n      </div>\\n  \\n      <div class=\\\"recipe__directions\\\">\\n        <h2 class=\\\"heading-2\\\">How to cook it</h2>\\n        <p class=\\\"recipe__directions-text\\\">\\n            This recipe was carefully designed and tested by\\n            <span class=\\\"recipe__by\\\">The Pioneer Woman</span>. Please check out directions at their website.\\n        </p>\\n        <a class=\\\"btn-small recipe__btn\\\" href=\\\"http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/\\\" target=\\\"_blank\\\">\\n            <span>Directions</span>\\n            <svg class=\\\"search__icon\\\">\\n                <use href=\\\"img/icons.svg#icon-triangle-right\\\"></use>\\n            </svg>\\n  \\n        </a>\\n      </div>\\n    \");\n  _DOM__WEBPACK_IMPORTED_MODULE_0__[\"DOM\"].recipe.insertAdjacentHTML(\"afterbegin\", markup);\n};\n\n//# sourceURL=webpack:///./src/js/views/recipeView.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"clearRecipe\", function() { return clearRecipe; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"renderRecipe\", function() { return renderRecipe; });\n/* harmony import */ var _DOM__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DOM */ \"./src/js/views/DOM.js\");\n\nconst clearRecipe = () => {\n  _DOM__WEBPACK_IMPORTED_MODULE_0__[\"DOM\"].recipe.innerHTML = \"\";\n};\n\nconst createIngredient = ingredients => \"\\n  <li class=\\\"recipe__item\\\">\\n    <svg class=\\\"recipe__icon\\\">\\n        <use href=\\\"img/icons.svg#icon-check\\\"></use>\\n    </svg>\\n    <div class=\\\"recipe__count\\\">\".concat(ingredients.count, \"</div>\\n    <div class=\\\"recipe__ingredient\\\">\\n        <span class=\\\"recipe__unit\\\">\").concat(ingredients.unit, \"</span>\\n        \").concat(ingredients.ingredient, \"\\n    </div>\\n  </li>\\n\");\n\nconst renderRecipe = (recipe, type) => {\n  console.log(recipe.serving);\n  console.log(type);\n  const markup = \"\\n      <figure class=\\\"recipe__fig\\\">\\n        <img src=\\\"\".concat(recipe.image_url, \"\\\" alt=\\\"\").concat(recipe.title, \"\\\" class=\\\"recipe__img\\\">\\n        <h1 class=\\\"recipe__title\\\">\\n            <span>\").concat(recipe.title, \"</span>\\n        </h1>\\n      </figure>\\n  \\n      <div class=\\\"recipe__details\\\">\\n        <div class=\\\"recipe__info\\\">\\n            <svg class=\\\"recipe__info-icon\\\">\\n                <use href=\\\"img/icons.svg#icon-stopwatch\\\"></use>\\n            </svg>\\n            <span class=\\\"recipe__info-data recipe__info-data--minutes\\\">\").concat(recipe.time, \"</span>\\n            <span class=\\\"recipe__info-text\\\"> minutes</span>\\n        </div>\\n        <div class=\\\"recipe__info\\\">\\n            <svg class=\\\"recipe__info-icon\\\">\\n                <use href=\\\"img/icons.svg#icon-man\\\"></use>\\n            </svg>\\n            <span class=\\\"recipe__info-data recipe__info-data--people\\\">\").concat(type === \"minus\" && type != undefined ? recipe.serving-- : recipe.serving++, \"</span>\\n            <span class=\\\"recipe__info-text\\\"> servings</span>\\n  \\n            <div class=\\\"recipe__info-buttons\\\">\\n                <button class=\\\"btn-tiny btn-minus\\\">\\n                    <svg>\\n                        <use href=\\\"img/icons.svg#icon-circle-with-minus\\\"></use>\\n                    </svg>\\n                </button>\\n                <button class=\\\"btn-tiny btn-plus\\\">\\n                    <svg>\\n                        <use href=\\\"img/icons.svg#icon-circle-with-plus\\\"></use>\\n                    </svg>\\n                </button>\\n            </div>\\n        </div>\\n        <button class=\\\"recipe__love\\\">\\n            <svg class=\\\"header__likes\\\">\\n                <use href=\\\"img/icons.svg#icon-heart-outlined\\\"></use>\\n            </svg>\\n        </button>\\n      </div>\\n  \\n      <div class=\\\"recipe__ingredients\\\">\\n        <ul class=\\\"recipe__ingredient-list\\\">\\n          \").concat(recipe.ingredients.map(el => createIngredient(el)).join(\" \"), \"\\n        </ul>\\n  \\n        <button class=\\\"btn-small recipe__btn\\\">\\n            <svg class=\\\"search__icon\\\">\\n                <use href=\\\"img/icons.svg#icon-shopping-cart\\\"></use>\\n            </svg>\\n            <span>Add to shopping list</span>\\n        </button>\\n      </div>\\n  \\n      <div class=\\\"recipe__directions\\\">\\n        <h2 class=\\\"heading-2\\\">How to cook it</h2>\\n        <p class=\\\"recipe__directions-text\\\">\\n            This recipe was carefully designed and tested by\\n            <span class=\\\"recipe__by\\\">The Pioneer Woman</span>. Please check out directions at their website.\\n        </p>\\n        <a class=\\\"btn-small recipe__btn\\\" href=\\\"http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/\\\" target=\\\"_blank\\\">\\n            <span>Directions</span>\\n            <svg class=\\\"search__icon\\\">\\n                <use href=\\\"img/icons.svg#icon-triangle-right\\\"></use>\\n            </svg>\\n  \\n        </a>\\n      </div>\\n    \");\n  _DOM__WEBPACK_IMPORTED_MODULE_0__[\"DOM\"].recipe.insertAdjacentHTML(\"afterbegin\", markup);\n};\n\n//# sourceURL=webpack:///./src/js/views/recipeView.js?");
 
 /***/ }),
 
@@ -1458,6 +1783,28 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getValueSearch__field\", function() { return getValueSearch__field; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"clearInput\", function() { return clearInput; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"clearPagination\", function() { return clearPagination; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"clearSearchList\", function() { return clearSearchList; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"renderResultsSearch\", function() { return renderResultsSearch; });\n/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.string.split */ \"./node_modules/core-js/modules/es.string.split.js\");\n/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _DOM__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DOM */ \"./src/js/views/DOM.js\");\n\n\nconst getValueSearch__field = () => _DOM__WEBPACK_IMPORTED_MODULE_1__[\"DOM\"].search__field.value;\nconst clearInput = () => {\n  _DOM__WEBPACK_IMPORTED_MODULE_1__[\"DOM\"].search__field.value = \"\";\n};\nconst clearPagination = () => {\n  _DOM__WEBPACK_IMPORTED_MODULE_1__[\"DOM\"].results__pages.innerHTML = \" \";\n}; // clear list\n\nconst clearSearchList = () => {\n  _DOM__WEBPACK_IMPORTED_MODULE_1__[\"DOM\"].results__list.innerHTML = \" \";\n};\n\nconst limitRecipeTitle = function limitRecipeTitle(title) {\n  let limit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 30;\n\n  /*\r\n  Balsamic Strawberry and Chicken Pizza with Sweet Onions and Smoked Bacon\r\n  acc = 0 / acc + cur.length = 8 \r\n  acc = 8 / acc + cur.length = 8 + 10 = 18\r\n  */\n  const newTitle = [];\n\n  if (title.length > limit) {\n    title.split(\" \").reduce((acc, cur) => {\n      if (acc + cur.length <= limit) {\n        newTitle.push(cur);\n      }\n\n      return acc + cur.length;\n    }, 0);\n    return \"\".concat(newTitle.join(\" \"), \" ...\");\n  }\n\n  return title;\n}; // add item search\n\n\nconst itemResultsSearchList = element => {\n  const markup = \"\\n        <li>\\n            <a class=\\\"results__link\\\" href=\\\"#\".concat(element.recipe_id, \"\\\">\\n                <figure class=\\\"results__fig\\\">\\n                    <img src=\\\"\").concat(element.image_url, \"\\\" alt=\\\"\").concat(element.title, \"\\\">\\n                </figure>\\n                <div class=\\\"results__data\\\">\\n                    <h4 class=\\\"results__name\\\">\").concat(limitRecipeTitle(element.title), \"</h4>\\n                    <p class=\\\"results__author\\\">\").concat(element.publisher, \"</p>\\n                </div>\\n            </a>\\n        </li>\\n    \");\n  _DOM__WEBPACK_IMPORTED_MODULE_1__[\"DOM\"].results__list.insertAdjacentHTML(\"afterbegin\", markup);\n}; // create button pagination\n\n\nconst createButtonPagination = (currentPage, type) => \"\\n    <button class=\\\"btn-inline results__btn--\".concat(type === \"prev\" ? \"prev\" : \"next\", \"\\\"data-page=\").concat(type === \"prev\" ? currentPage - 1 : currentPage + 1, \">\\n        <span>Page \").concat(type === \"prev\" ? currentPage - 1 : currentPage + 1, \"</span>\\n        <svg class=\\\"search__icon\\\">\\n            <use href=\\\"img/icons.svg#icon-triangle-\").concat(type === \"prev\" ? \"left\" : \"right\", \"\\\"></use>\\n        </svg>\\n    </button>\\n\"); // render button pagination\n\n\nconst renderPagination = (currentPage, totalData, numberPerPage) => {\n  const numberOfPages = Math.ceil(totalData / numberPerPage); // số trang\n\n  let button;\n\n  if (currentPage === 1 && numberOfPages > 1) {\n    // Only render next button\n    button = createButtonPagination(currentPage, \"next\");\n  } else if (currentPage < numberOfPages) {\n    // Render both button\n    button = \"\\n        \".concat(createButtonPagination(currentPage, \"prev\"), \"\\n        \").concat(createButtonPagination(currentPage, \"next\"), \"\\n      \");\n  } else if (currentPage === numberOfPages && numberOfPages > 1) {\n    // Only render prev button\n    button = createButtonPagination(currentPage, \"prev\");\n  }\n\n  _DOM__WEBPACK_IMPORTED_MODULE_1__[\"DOM\"].results__pages.insertAdjacentHTML(\"afterbegin\", button);\n}; // render list item search\n\n\nconst renderResultsSearch = function renderResultsSearch(data) // số lượng sp trên 1 trang\n{\n  let currentPage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;\n  let numberPerPage = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;\n  console.log(data);\n  const begin = (currentPage - 1) * numberPerPage;\n  const end = begin + numberPerPage;\n  data.slice(begin, end).forEach(element => {\n    return itemResultsSearchList(element);\n  });\n  renderPagination(currentPage, data.length, numberPerPage); // for (let index = 0; index < 2; index++) {\n  //     const element = data[index];\n  //     return itemResultsSearchList(element);\n  // }\n};\n\n//# sourceURL=webpack:///./src/js/views/searchView.js?");
+
+/***/ }),
+
+/***/ "./src/scss/index.scss":
+/*!*****************************!*\
+  !*** ./src/scss/index.scss ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/scss/index.scss?");
+
+/***/ }),
+
+/***/ 0:
+/*!*****************************************************!*\
+  !*** multi ./src/js/index.js ./src/scss/index.scss ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("__webpack_require__(/*! ./src/js/index.js */\"./src/js/index.js\");\nmodule.exports = __webpack_require__(/*! ./src/scss/index.scss */\"./src/scss/index.scss\");\n\n\n//# sourceURL=webpack:///multi_./src/js/index.js_./src/scss/index.scss?");
 
 /***/ })
 

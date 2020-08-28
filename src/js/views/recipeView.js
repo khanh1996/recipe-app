@@ -1,12 +1,39 @@
 import { DOM } from "./DOM";
 
 export const clearRecipe = () => {
-    DOM.recipe.innerHTML = "";
+    DOM.recipe.innerHTML = " ";
+};
+
+export const calcRecipes = (recipe, type) => {
+    let flagCount = false;
+    console.log(flagCount);
+    if (type === "minus") {
+        if (recipe.serving > 0 && flagCount === false) {
+            recipe.serving--;
+            recipe.time = recipe.time - 15;
+            recipe.ingredients.map((el) => {
+                if (el.count > 0) {
+                    el.count = el.count - 0.5;
+                } else {
+                    flagCount = true;
+                    el.count;
+                }
+            });
+        }
+        console.log(flagCount);
+    } else if (type === "plus") {
+        recipe.serving++;
+        recipe.time = recipe.time + 15;
+        recipe.ingredients.map((el) => {
+            el.count = el.count + 0.5;
+        });
+    }
+    return recipe;
 };
 const createIngredient = (ingredients) => `
   <li class="recipe__item">
     <svg class="recipe__icon">
-        <use href="img/icons.svg#icon-check"></use>
+        <use href="src/assets/img/icons.svg#icon-check"></use>
     </svg>
     <div class="recipe__count">${ingredients.count}</div>
     <div class="recipe__ingredient">
@@ -16,9 +43,7 @@ const createIngredient = (ingredients) => `
   </li>
 `;
 
-export const renderRecipe = (recipe, type) => {
-    console.log(recipe.serving);
-    console.log(type);
+export const renderRecipe = (recipe) => {
     const markup = `
       <figure class="recipe__fig">
         <img src="${recipe.image_url}" alt="${
@@ -32,7 +57,7 @@ export const renderRecipe = (recipe, type) => {
       <div class="recipe__details">
         <div class="recipe__info">
             <svg class="recipe__info-icon">
-                <use href="img/icons.svg#icon-stopwatch"></use>
+                <use href="src/assets/img/icons.svg#icon-stopwatch"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--minutes">${
                 recipe.time
@@ -41,31 +66,29 @@ export const renderRecipe = (recipe, type) => {
         </div>
         <div class="recipe__info">
             <svg class="recipe__info-icon">
-                <use href="img/icons.svg#icon-man"></use>
+                <use href="src/assets/img/icons.svg#icon-man"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--people">${
-                type === "minus" && type != undefined
-                    ? recipe.serving--
-                    : recipe.serving++
+                recipe.serving
             }</span>
             <span class="recipe__info-text"> servings</span>
   
             <div class="recipe__info-buttons">
                 <button class="btn-tiny btn-minus">
                     <svg>
-                        <use href="img/icons.svg#icon-circle-with-minus"></use>
+                        <use href="src/assets/img/icons.svg#icon-circle-with-minus"></use>
                     </svg>
                 </button>
                 <button class="btn-tiny btn-plus">
                     <svg>
-                        <use href="img/icons.svg#icon-circle-with-plus"></use>
+                        <use href="src/assets/img/icons.svg#icon-circle-with-plus"></use>
                     </svg>
                 </button>
             </div>
         </div>
         <button class="recipe__love">
             <svg class="header__likes">
-                <use href="img/icons.svg#icon-heart-outlined"></use>
+                <use href="src/assets/img/icons.svg#icon-heart-outlined"></use>
             </svg>
         </button>
       </div>
@@ -77,7 +100,7 @@ export const renderRecipe = (recipe, type) => {
   
         <button class="btn-small recipe__btn">
             <svg class="search__icon">
-                <use href="img/icons.svg#icon-shopping-cart"></use>
+                <use href="src/assets/img/icons.svg#icon-shopping-cart"></use>
             </svg>
             <span>Add to shopping list</span>
         </button>
@@ -92,12 +115,11 @@ export const renderRecipe = (recipe, type) => {
         <a class="btn-small recipe__btn" href="http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/" target="_blank">
             <span>Directions</span>
             <svg class="search__icon">
-                <use href="img/icons.svg#icon-triangle-right"></use>
+                <use href="src/assets/img/icons.svg#icon-triangle-right"></use>
             </svg>
   
         </a>
       </div>
     `;
-
     DOM.recipe.insertAdjacentHTML("afterbegin", markup);
 };

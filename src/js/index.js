@@ -3,6 +3,7 @@ import Recipes from "./models/Recipes";
 import { DOM, renderLoader, clearLoader } from "./views/DOM";
 import * as searchView from "./views/searchView";
 import * as recipeView from "./views/recipeView";
+import { importAll } from "./models/RenderImage";
 
 /**
  * Global State
@@ -31,6 +32,8 @@ const controllerSearch = async () => {
         await state.search.getApiSearch();
         //5.Render result to ui
         clearLoader();
+        searchView.clearPagination();
+        searchView.clearSearchList();
         searchView.renderResultsSearch(state.search.result);
     }
 };
@@ -44,6 +47,7 @@ const controllerRecipe = async () => {
     console.log(recipeId);
     if (recipeId) {
         // 2. Prepare ui
+        recipeView.clearRecipe();
         renderLoader(DOM.recipe);
         // 3. Create new object recipe
         state.recipe = new Recipes(recipeId);
@@ -53,7 +57,6 @@ const controllerRecipe = async () => {
         state.recipe.calcServing();
         state.recipe.parseIngredients();
         // 5. Render to view
-        recipeView.clearRecipe();
         clearLoader();
         recipeView.renderRecipe(state.recipe);
         console.log(state.recipe);
@@ -84,18 +87,23 @@ const setupListenerEvents = () => {
     DOM.recipe.addEventListener("click", (event) => {
         const btnMinus = event.target.closest(".btn-minus");
         const btnPlus = event.target.closest(".btn-plus");
+        let newRecipe;
         if (btnMinus) {
-            // recipeView.clearRecipe();
-            // recipeView.renderRecipe(state.recipe, "minus");
+            newRecipe = recipeView.calcRecipes(state.recipe, "minus");
+            console.log(newRecipe);
+            recipeView.clearRecipe();
+            recipeView.renderRecipe(newRecipe);
         }
         if (btnPlus) {
-            // recipeView.clearRecipe();
-            // recipeView.renderRecipe(state.recipe, "plus");
+            newRecipe = recipeView.calcRecipes(state.recipe, "plus");
+            recipeView.clearRecipe();
+            recipeView.renderRecipe(newRecipe);
         }
     });
 };
 function init() {
     console.log("App running");
     setupListenerEvents();
+    importAll(require.context("../assets/img", false, /\.(png|jpe?g|svg)$/));
 }
 init();

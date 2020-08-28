@@ -5,6 +5,13 @@ export const getValueSearch__field = () => DOM.search__field.value;
 export const clearInput = () => {
     DOM.search__field.value = "";
 };
+export const clearPagination = () => {
+    DOM.results__pages.innerHTML = " ";
+};
+// clear list
+export const clearSearchList = () => {
+    DOM.results__list.innerHTML = " ";
+};
 
 const limitRecipeTitle = (title, limit = 30) => {
     /*
@@ -28,7 +35,7 @@ const limitRecipeTitle = (title, limit = 30) => {
 const itemResultsSearchList = (element) => {
     const markup = `
         <li>
-            <a class="results__link" href="${element.recipe_id}">
+            <a class="results__link" href="#${element.recipe_id}">
                 <figure class="results__fig">
                     <img src="${element.image_url}" alt="${element.title}">
                 </figure>
@@ -43,52 +50,54 @@ const itemResultsSearchList = (element) => {
     `;
     DOM.results__list.insertAdjacentHTML("afterbegin", markup);
 };
-// clear
-export const clearSearchList = () => {
-    DOM.results__list.innerHTML = " ";
-};
+// create button pagination
+const createButtonPagination = (currentPage, type) => `
+    <button class="btn-inline results__btn--${
+        type === "prev" ? "prev" : "next"
+    }"data-page=${type === "prev" ? currentPage - 1 : currentPage + 1}>
+        <span>Page ${type === "prev" ? currentPage - 1 : currentPage + 1}</span>
+        <svg class="search__icon">
+            <use href="img/icons.svg#icon-triangle-${
+                type === "prev" ? "left" : "right"
+            }"></use>
+        </svg>
+    </button>
+`;
 
-const numberPaginationSearch = (page) => {
-    const markup = `
-        <button class="perPager">
-            <span>${page}</span>
-        </button>
-    `;
-    DOM.results__pages.insertAdjacentHTML("afterbegin", markup);
-};
-
-export const renderPaginationSearch = (numberOfPages) => {
-    const markup = `
-        <button class="btn-inline results__btn--prev">
-            <svg class="search__icon">
-                <use href="img/icons.svg#icon-triangle-left"></use>
-            </svg>
-            <span>Page 1</span>
-        </button>
-
-        <button class="btn-inline results__btn--next">
-            <span>Page 3</span>
-            <svg class="search__icon">
-                <use href="img/icons.svg#icon-triangle-right"></use>
-            </svg>
-        </button>
-    `;
-    for (let index = 1; index <= numberOfPages; index++) {
-        const markup = `
-            <button class="perPager">
-                <span>${index}</span>
-            </button>
-        `;
-        DOM.results__pages.insertAdjacentHTML("beforeend", markup);
+// render button pagination
+const renderPagination = (currentPage, totalData, numberPerPage) => {
+    const numberOfPages = Math.ceil(totalData / numberPerPage); // số trang
+    let button;
+    if (currentPage === 1 && numberOfPages > 1) {
+        // Only render next button
+        button = createButtonPagination(currentPage, "next");
+    } else if (currentPage < numberOfPages) {
+        // Render both button
+        button = `
+        ${createButtonPagination(currentPage, "prev")}
+        ${createButtonPagination(currentPage, "next")}
+      `;
+    } else if (currentPage === numberOfPages && numberOfPages > 1) {
+        // Only render prev button
+        button = createButtonPagination(currentPage, "prev");
     }
-};
 
+    DOM.results__pages.insertAdjacentHTML("afterbegin", button);
+};
 // render list item search
-export const renderResultsSearch = (data) => {
-    //console.log(data);
-    data.forEach((element) => {
+export const renderResultsSearch = (
+    data,
+    currentPage = 1, // page hiện tại
+    numberPerPage = 10 // số lượng sp trên 1 trang
+) => {
+    console.log(data);
+    const begin = (currentPage - 1) * numberPerPage;
+    const end = begin + numberPerPage;
+
+    data.slice(begin, end).forEach((element) => {
         return itemResultsSearchList(element);
     });
+    renderPagination(currentPage, data.length, numberPerPage);
     // for (let index = 0; index < 2; index++) {
     //     const element = data[index];
     //     return itemResultsSearchList(element);

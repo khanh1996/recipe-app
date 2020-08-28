@@ -1,6 +1,8 @@
 import Search from "./models/Search";
-import { DOM } from "./views/DOM";
+import Recipes from "./models/Recipes";
+import { DOM, renderLoader, clearLoader } from "./views/DOM";
 import * as searchView from "./views/searchView";
+import * as recipeView from "./views/recipeView";
 
 /**
  * Global State
@@ -10,6 +12,9 @@ import * as searchView from "./views/searchView";
  * - Wishlist
  */
 const state = {};
+/**
+ * SEARCH CONTROLLER
+ */
 const controllerSearch = async () => {
     // 1. Get query value from  input search
     const query = searchView.getValueSearch__field();
@@ -18,78 +23,79 @@ const controllerSearch = async () => {
     if (query) {
         // 2. Get data from api and add to state
         state.search = new Search(query);
-        //3. get results return from API to state
-        await state.search.getApiSearch();
         // 4 clear search list
         searchView.clearInput();
         searchView.clearSearchList();
+        renderLoader(DOM.results);
+        //3. get results return from API to state
+        await state.search.getApiSearch();
         //5.Render result to ui
+        clearLoader();
         searchView.renderResultsSearch(state.search.result);
-        // 6. calculation pagination
-        paginationListSearch();
     }
 };
 
-const paginationListSearch = () => {
-    var list = state.search.result;
-    var pageList = new Array();
-    var currentPage = 1;
-    var numberPerPage = 10; // số sp trên mỗi trang
-    var numberOfPages = 0;
-    var numberOfPages = getNumberOfPages(list, numberPerPage); // số trang
-
-    console.log(`numberOfPages: ${numberOfPages}`);
-
-    loadList(currentPage, numberPerPage, list, pageList, numberOfPages);
+/**
+ * RECIPE CONTROLLER
+ */
+const controllerRecipe = async () => {
+    // get id
+    const recipeId = window.location.hash.replace("#", "");
+    console.log(recipeId);
+    if (recipeId) {
+        // 2. Prepare ui
+        renderLoader(DOM.recipe);
+        // 3. Create new object recipe
+        state.recipe = new Recipes(recipeId);
+        // 4. Get recipe
+        await state.recipe.getApiRecipes();
+        state.recipe.calcTime();
+        state.recipe.calcServing();
+        state.recipe.parseIngredients();
+        // 5. Render to view
+        recipeView.clearRecipe();
+        clearLoader();
+        recipeView.renderRecipe(state.recipe);
+        console.log(state.recipe);
+    }
 };
 
-const getNumberOfPages = (list, numberPerPage) => {
-    return Math.ceil(list.length / numberPerPage);
-};
-const nextPage = () => {
-    currentPage += 1;
-    loadList();
-};
-const previousPage = () => {
-    currentPage -= 1;
-    loadList();
-};
-const loadList = (
-    currentPage,
-    numberPerPage,
-    list,
-    pageList,
-    numberOfPages
-) => {
-    var begin = (currentPage - 1) * numberPerPage;
-    var end = begin + numberPerPage;
-
-    pageList = list.slice(begin, end);
-    console.log(`currentPage: ${currentPage}`);
-    console.log(`numberPerPage: ${numberPerPage}`);
-    console.log(list);
-    console.log(pageList);
-    searchView.clearSearchList();
-    // render result per page
-    searchView.renderResultsSearch(pageList);
-    // render pagination to ui
-    searchView.renderPaginationSearch(numberOfPages);
-};
+/**
+ * LISTENER EVENTS
+ */
 const setupListenerEvents = () => {
     DOM.search.addEventListener("submit", (event) => {
         event.preventDefault();
         controllerSearch();
     });
-
-    // document
-    //     .querySelector(".results__btn--prev")
-    //     .addEventListener("click", () => {
-    //         paginationListSearch();
-    //     });
+    DOM.results__pages.addEventListener("click", (event) => {
+        const btn = event.target.closest(".btn-inline");
+        if (btn) {
+            const goToPage = parseInt(btn.dataset.page);
+            //console.log(goToPage);
+            searchView.clearSearchList();
+            searchView.clearPagination();
+            searchView.renderResultsSearch(state.search.result, goToPage);
+        }
+    });
+    document.querySelectorAll(".results__list").forEach((recipe) => {
+        recipe.addEventListener("click", controllerRecipe);
+    });
+    DOM.recipe.addEventListener("click", (event) => {
+        const btnMinus = event.target.closest(".btn-minus");
+        const btnPlus = event.target.closest(".btn-plus");
+        if (btnMinus) {
+            // recipeView.clearRecipe();
+            // recipeView.renderRecipe(state.recipe, "minus");
+        }
+        if (btnPlus) {
+            // recipeView.clearRecipe();
+            // recipeView.renderRecipe(state.recipe, "plus");
+        }
+    });
 };
 function init() {
     console.log("App running");
     setupListenerEvents();
 }
-
 init();

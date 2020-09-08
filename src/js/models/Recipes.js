@@ -88,7 +88,6 @@ export default class Recipes {
                 } else {
                     count = eval(arrIng.slice(0, unitIndex).join("+"));
                 }
-
                 objIng = {
                     count,
                     unit: arrIng[unitIndex],
@@ -109,7 +108,7 @@ export default class Recipes {
                     ingredient,
                 };
             }
-
+            //console.log(objIng);
             return objIng;
         });
 

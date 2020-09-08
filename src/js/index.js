@@ -81,9 +81,9 @@ const setupListenerEvents = () => {
             searchView.renderResultsSearch(state.search.result, goToPage);
         }
     });
-    document.querySelectorAll(".results__list").forEach((recipe) => {
-        recipe.addEventListener("click", controllerRecipe);
-    });
+    ["load", "hashchange"].forEach((el) =>
+        window.addEventListener(el, controllerRecipe)
+    );
     DOM.recipe.addEventListener("click", (event) => {
         const btnMinus = event.target.closest(".btn-minus");
         const btnPlus = event.target.closest(".btn-plus");

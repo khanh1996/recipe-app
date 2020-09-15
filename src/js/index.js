@@ -1,10 +1,12 @@
-import Search from "./models/Search";
-import Recipes from "./models/Recipes";
-import { DOM, renderLoader, clearLoader } from "./views/DOM";
-import * as searchView from "./views/searchView";
-import * as recipeView from "./views/recipeView";
-import { importAll } from "./models/RenderImage";
+import Search from './models/Search';
+import Recipes from './models/Recipes';
+import { DOM, renderLoader, clearLoader } from './views/DOM';
+import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
+import { importAll } from './models/RenderImage';
 
+// GIT STASH SAVE awesome.vue Dev 2
+// GIT STASH SAVE awesome.vue Dev 2
 /**
  * Global State
  * - Search object
@@ -16,7 +18,7 @@ const state = {};
 /**
  * SEARCH CONTROLLER
  */
-const controllerSearch = async () => {
+const controllerSearch = async() => {
     // 1. Get query value from  input search
     const query = searchView.getValueSearch__field();
     //console.log(query);
@@ -41,9 +43,9 @@ const controllerSearch = async () => {
 /**
  * RECIPE CONTROLLER
  */
-const controllerRecipe = async () => {
+const controllerRecipe = async() => {
     // get id
-    const recipeId = window.location.hash.replace("#", "");
+    const recipeId = window.location.hash.replace('#', '');
     console.log(recipeId);
     if (recipeId) {
         // 2. Prepare ui
@@ -67,12 +69,12 @@ const controllerRecipe = async () => {
  * LISTENER EVENTS
  */
 const setupListenerEvents = () => {
-    DOM.search.addEventListener("submit", (event) => {
+    DOM.search.addEventListener('submit', (event) => {
         event.preventDefault();
         controllerSearch();
     });
-    DOM.results__pages.addEventListener("click", (event) => {
-        const btn = event.target.closest(".btn-inline");
+    DOM.results__pages.addEventListener('click', (event) => {
+        const btn = event.target.closest('.btn-inline');
         if (btn) {
             const goToPage = parseInt(btn.dataset.page);
             //console.log(goToPage);
@@ -81,29 +83,30 @@ const setupListenerEvents = () => {
             searchView.renderResultsSearch(state.search.result, goToPage);
         }
     });
-    ["load", "hashchange"].forEach((el) =>
+    ['load', 'hashchange'].forEach((el) =>
         window.addEventListener(el, controllerRecipe)
     );
-    DOM.recipe.addEventListener("click", (event) => {
-        const btnMinus = event.target.closest(".btn-minus");
-        const btnPlus = event.target.closest(".btn-plus");
+    DOM.recipe.addEventListener('click', (event) => {
+        const btnMinus = event.target.closest('.btn-minus');
+        const btnPlus = event.target.closest('.btn-plus');
         let newRecipe;
         if (btnMinus) {
-            newRecipe = recipeView.calcRecipes(state.recipe, "minus");
+            newRecipe = recipeView.calcRecipes(state.recipe, 'minus');
             console.log(newRecipe);
             recipeView.clearRecipe();
             recipeView.renderRecipe(newRecipe);
         }
         if (btnPlus) {
-            newRecipe = recipeView.calcRecipes(state.recipe, "plus");
+            newRecipe = recipeView.calcRecipes(state.recipe, 'plus');
             recipeView.clearRecipe();
             recipeView.renderRecipe(newRecipe);
         }
     });
 };
+
 function init() {
-    console.log("App running");
+    console.log('App running');
     setupListenerEvents();
-    importAll(require.context("../assets/img", false, /\.(png|jpe?g|svg)$/));
+    importAll(require.context('../assets/img', false, /\.(png|jpe?g|svg)$/));
 }
 init();

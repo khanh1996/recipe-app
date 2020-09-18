@@ -5,7 +5,7 @@
 // B2 remove đi những chú thích ở trong ngoặc đơn
 // B3
 // B4
-import axios from "axios";
+import axios from 'axios';
 export default class Recipes {
     constructor(recipe_id) {
         this.recipe_id = recipe_id;
@@ -36,29 +36,30 @@ export default class Recipes {
     calcServing() {
         this.serving = 4;
     }
+
     parseIngredients() {
         // tablespoons => tbsp, cups => cup, ounce => oz
         const unitsLong = [
-            "teaspoons",
-            "teaspoon",
-            "cups",
-            "cup",
-            "ounces",
-            "ounce",
-            "tablespoons",
-            "tablespoon",
-            "pound",
+            'teaspoons',
+            'teaspoon',
+            'cups',
+            'cup',
+            'ounces',
+            'ounce',
+            'tablespoons',
+            'tablespoon',
+            'pound',
         ];
         const unitsShot = [
-            "tsp",
-            "tsp",
-            "cup",
-            "cup",
-            "oz",
-            "oz",
-            "tbsp",
-            "tbsp",
-            "pound",
+            'tsp',
+            'tsp',
+            'cup',
+            'cup',
+            'oz',
+            'oz',
+            'tbsp',
+            'tbsp',
+            'pound',
         ];
 
         const newIngredients = this.ingredients.map((el) => {
@@ -70,10 +71,10 @@ export default class Recipes {
             });
 
             // 2. Remove parentheses
-            ingredient = ingredient.replace(/ *\([^)]*\) */g, " ");
+            ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
 
             // 3. Parse ingredients to count, unit and ingredient
-            const arrIng = ingredient.split(" ");
+            const arrIng = ingredient.split(' ');
             const unitIndex = arrIng.findIndex((el2) =>
                 unitsShot.includes(el2)
             );
@@ -84,27 +85,27 @@ export default class Recipes {
                 const arrCount = arrIng.slice(0, unitIndex);
                 let count;
                 if (arrCount.length === 1) {
-                    count = eval(arrIng[0].replace("-", "+"));
+                    count = eval(arrIng[0].replace('-', '+'));
                 } else {
-                    count = eval(arrIng.slice(0, unitIndex).join("+"));
+                    count = eval(arrIng.slice(0, unitIndex).join('+'));
                 }
                 objIng = {
                     count,
                     unit: arrIng[unitIndex],
-                    ingredient: arrIng.splice(unitIndex + 1).join(" "),
+                    ingredient: arrIng.splice(unitIndex + 1).join(' '),
                 };
             } else if (parseInt(arrIng[0])) {
                 // Not a unit, but is a number
                 objIng = {
                     count: parseInt(arrIng[0]),
-                    unit: "",
-                    ingredient: arrIng.splice(1).join(" "),
+                    unit: '',
+                    ingredient: arrIng.splice(1).join(' '),
                 };
             } else if (unitIndex === -1) {
                 // This is No a unit
                 objIng = {
                     count: 1,
-                    unit: "",
+                    unit: '',
                     ingredient,
                 };
             }
@@ -113,5 +114,25 @@ export default class Recipes {
         });
 
         this.ingredients = newIngredients;
+    }
+
+    updateTime(type) {
+        if (this.time > 1 && type === 'decrease') {
+            const numIn = this.ingredients.length / 3;
+            const newTime = numIn * 15;
+            this.time = newTime;
+        }
+    }
+
+    updateServing(type) {
+        // CT: serving_old: 4, serving_new: 5, count: 1 => count * (serving_new/serving_old);  => 1 * (5/4) = 1.25
+        // update serving :
+        const newServing =
+            type === 'decrease' ? this.serving - 1 : this.serving + 1;
+
+        this.ingredients.forEach((item) => {
+            item.count = (item.count * newServing) / this.serving;
+        });
+        this.serving = newServing;
     }
 }

@@ -1,8 +1,10 @@
 import Search from './models/Search';
 import Recipes from './models/Recipes';
+import Cart from './models/Cart';
 import { DOM, renderLoader, clearLoader } from './views/DOM';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as cartView from './views/cartView';
 import { importAll } from './models/RenderImage';
 
 // codding feature
@@ -60,8 +62,24 @@ const controllerRecipe = async() => {
         // 5. Render to view
         clearLoader();
         recipeView.renderRecipe(state.recipe);
-        console.log(state.recipe);
     }
+    console.log(state.recipe);
+};
+
+/**
+ * CART CONTROLLER
+ */
+const cartController = () => {
+    console.log(state);
+    if (!state.cart) state.cart = new List();
+    state.recipe.ingredients.forEach((element) => {
+        const item = state.cart.addItem(
+            element.count,
+            element.unit,
+            element.ingredient
+        );
+        cartView.renderItemCart(item);
+    });
 };
 
 /**
@@ -82,28 +100,33 @@ const setupListenerEvents = () => {
             searchView.renderResultsSearch(state.search.result, goToPage);
         }
     });
+
     ['load', 'hashchange'].forEach((el) =>
         window.addEventListener(el, controllerRecipe)
     );
+
     DOM.recipe.addEventListener('click', (event) => {
-        const btnMinus = event.target.closest('.btn-minus');
-        const btnPlus = event.target.closest('.btn-plus');
-        let newRecipe;
+        const btnMinus = event.target.matches('.btn-minus *');
+        const btnPlus = event.target.matches('.btn-plus *');
+        const recipeBtnAdd = event.target.matches('.recipe__btn--add *');
         if (btnMinus) {
-            newRecipe = recipeView.calcRecipes(state.recipe, 'minus');
-            console.log(newRecipe);
-            recipeView.clearRecipe();
-            recipeView.renderRecipe(newRecipe);
-        }
-        if (btnPlus) {
-            newRecipe = recipeView.calcRecipes(state.recipe, 'plus');
-            recipeView.clearRecipe();
-            recipeView.renderRecipe(newRecipe);
+            if (state.recipe.serving > 1) {
+                state.recipe.updateServing('decrease');
+                state.recipe.updateTime('decrease');
+                recipeView.updateServingIngredient(state.recipe);
+            }
+        } else if (btnPlus) {
+            state.recipe.updateServing('increase');
+            state.recipe.updateTime('increase');
+            recipeView.updateServingIngredient(state.recipe);
+        } else if (recipeBtnAdd) {
+            cartController();
         }
     });
 };
 
 function init() {
+    //console.log(state);
     console.log('App running');
     setupListenerEvents();
     importAll(require.context('../assets/img', false, /\.(png|jpe?g|svg)$/));

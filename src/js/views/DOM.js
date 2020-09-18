@@ -1,15 +1,16 @@
 export const DOM = {
-    search__field: document.querySelector(".search__field"),
-    search: document.querySelector(".search"),
-    results__list: document.querySelector(".results__list"),
-    results__pages: document.querySelector(".results__pages"),
-    results: document.querySelector(".results"),
-    results__link: document.querySelectorAll(".results__link"),
-    recipe: document.querySelector(".recipe"),
+    search__field: document.querySelector('.search__field'),
+    search: document.querySelector('.search'),
+    results__list: document.querySelector('.results__list'),
+    results__pages: document.querySelector('.results__pages'),
+    results: document.querySelector('.results'),
+    results__link: document.querySelectorAll('.results__link'),
+    recipe: document.querySelector('.recipe'),
+    shopping: document.querySelector('.shopping'),
 };
 
 export const elementString = {
-    loader: "loader",
+    loader: 'loader',
 };
 
 export const renderLoader = (parent) => {
@@ -20,7 +21,7 @@ export const renderLoader = (parent) => {
         </svg>
       </div>
     `;
-    parent.insertAdjacentHTML("afterbegin", loader);
+    parent.insertAdjacentHTML('afterbegin', loader);
 };
 
 export const clearLoader = () => {
